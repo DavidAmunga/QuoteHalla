@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="food" >
+        <item>Humor</item>
+        <item>Life</item>
+        <item>Money</item>
+        <item>Dreams</item>
+        <item>Education</item>
+        <item>God</item>
+        <item>Truth</item>
+        <item>Funny</item>
+        <item>Technology</item>
+        <item>Strength</item>
+        <item>War</item>
+        <item>Health</item>
+        <item>Art</item>
+        <item>Music</item>
+        <item>Famous</item>
+        <item>Famous</item>
+    </string-array>
+</resources>

@@ -8,11 +8,12 @@
     tools:context="com.labs.buttercell.quotehalla.MainActivity">
 
 
-
     <com.intrusoft.library.FrissonView
         android:id="@+id/wave_head"
         android:layout_width="match_parent"
         android:layout_height="500dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         app:alphaValue="90"
         app:gradientAngle="180"
         app:scaleType="centerCrop"
@@ -53,7 +54,7 @@
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_height="30dp"
                 android:layout_gravity="top"
                 android:layout_weight="1"
                 android:src="@drawable/quotes" />

@@ -33,8 +33,10 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.github.joaquimley:faboptions:1.1.2'
     implementation 'com.google.code.gson:gson:2.2.4'
+    implementation 'com.orhanobut:dialogplus:1.11@aar'
     implementation 'io.paperdb:paperdb:2.6'
     implementation 'com.github.IntruderShanky:Frisson:2.1.1'
+    implementation 'com.yarolegovich:lovely-dialog:1.0.7'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
