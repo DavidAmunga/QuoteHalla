@@ -1,33 +1,51 @@
 package com.labs.buttercell.quotehalla;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.joaquimley.faboptions.FabOptions;
+import com.labs.buttercell.quotehalla.model.Quote;
+import com.labs.buttercell.quotehalla.retrofit.ApiClient;
+import com.labs.buttercell.quotehalla.retrofit.ApiInterface;
 import com.yarolegovich.lovelydialog.LovelyChoiceDialog;
 import com.yarolegovich.lovelydialog.LovelySaveStateHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
     FabOptions fabOptions;
     ImageView img_filter;
+    TextView txtQuote, txtAuthor;
+
+    private List<Integer> list = new ArrayList<Integer>();
 
     private LovelySaveStateHandler saveStateHandler;
 
+    private static final String TAG = "MainActivity";
+
+
+    Call<List<Quote>> call;
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,21 +59,96 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
 
+        final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        call = apiService.getQuotes();
 
-
-
-
-
+        getQuote();
 
         img_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 displayDialog(savedInstanceState);
+                call.cancel();
+                call.clone().enqueue(new Callback<List<Quote>>() {
+                    @Override
+                    public void onResponse(final Call<List<Quote>> call, Response<List<Quote>> response) {
+                        final List<Quote> quotes = response.body();
+
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+
+                                int rand = (int) (Math.random() * 99 + 1);
+                                //looping is every 1 secs
+
+                                list.add(rand);
+
+                                txtAuthor.setText(quotes.get(rand).getAuthor());
+                                txtQuote.setText(quotes.get(rand).getQuote());
+
+                                Log.d(TAG, "List size " + list.size());
+                                if (list.size() == 10) {
+                                    list.clear();
+
+
+                                }
+                                handler.postDelayed(this, 1000);
+                            }
+                        }, 0); //initial delay of 0
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Quote>> call, Throwable t) {
+                        Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+                    }
+                });
             }
         });
 
 
     }
+
+    private void getQuote() {
+
+        call.enqueue(new Callback<List<Quote>>() {
+            @Override
+            public void onResponse(final Call<List<Quote>> call, Response<List<Quote>> response) {
+                final List<Quote> quotes = response.body();
+
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+
+                        int rand = (int) (Math.random() * 99 + 1);
+                        //looping is every 1 secs
+
+                        list.add(rand);
+
+                        txtAuthor.setText(quotes.get(rand).getAuthor());
+                        txtQuote.setText(quotes.get(rand).getQuote());
+
+                        Log.d(TAG, "List size " + list.size());
+                        if (list.size() == 10) {
+                            list.clear();
+
+
+                        }
+                        handler.postDelayed(this, 1000);
+                    }
+                }, 0); //initial delay of 0
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Quote>> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
     @Override
     protected void onRestoreInstanceState(Bundle savedState) {
         super.onRestoreInstanceState(savedState);
@@ -92,7 +185,9 @@ public class MainActivity extends AppCompatActivity {
         fabOptions = findViewById(R.id.fab_options);
         fabOptions.setButtonsMenu(R.menu.menu_main);
 
-        img_filter=findViewById(R.id.filter);
+        img_filter = findViewById(R.id.filter);
         saveStateHandler = new LovelySaveStateHandler();
+        txtAuthor = findViewById(R.id.txt_author);
+        txtQuote = findViewById(R.id.txt_quote);
     }
 }

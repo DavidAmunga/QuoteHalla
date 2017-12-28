@@ -8,19 +8,21 @@
     tools:context="com.labs.buttercell.quotehalla.MainActivity">
 
 
-    <com.intrusoft.library.FrissonView
+    <ImageView
         android:id="@+id/wave_head"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        app:alphaValue="90"
-        app:gradientAngle="180"
-        app:scaleType="centerCrop"
-        app:src="@drawable/test"
-        app:tideCount="3"
-        app:tideHeight="40dp"
-        app:tintColor="#000" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/test"
+      />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBlack"
+        android:alpha="0.9"
+        />
 
     <ImageView
         android:id="@+id/filter"
@@ -84,7 +86,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginLeft="40dp"
                 android:layout_weight="3"
-                android:text="If you are good at something never do it for free"
+                tools:text="If you are good at something never do it for free"
                 android:textAlignment="textStart"
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp"
@@ -95,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txt_quote"
-                android:text="The Joker"
+                tools:text="The Joker"
                 android:gravity="right"
                 android:layout_alignParentEnd="true"
                 android:textColor="@color/colorGray"
